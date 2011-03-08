@@ -12,11 +12,11 @@ WordNet::BestStem -- get the best guess stem of a word.
 
 =head1 VERSION
 
-0.2.2
+0.2.1
 
 =cut
 
-$VERSION = '0.2.2';
+$VERSION = '0.2.1';
 
 use strict;
 use warnings;
@@ -197,23 +197,33 @@ or in list context
   my ($stemmed, $stem_of, $stem_fre, $str_fre) = deluxe_stems \@paragraph;
 
 For two paragraphs / sentences,
-
   a) beautiful roses i would like a long stem rose
   b) he thinks that average salary rose in the last few years
 
 deluxe_stems,
-
-  $a_ = deluxe_stems \@a;
-  print @$a_;
     # beautiful rose i would like a long stem rose
     # he think that average salary rise in the last few year
 
 Compared to best_stem,
 
-  @a_ = map { scalar( best_stem $_ ) || $_ } @a;
+  @a_ = map { scalar best_stem $_ } @a;
   print "@a_\n";
-    # beautiful rose i would like a long stem rise
-    # he think that average salary rise in the last few year
+    # beautiful rose i  like a long stem rise
+    # he think  average salary rise in  last few year
+
+Compared to WordNet::stem,
+
+  @a_ = map { $stemmer->stemWord($_) } @a;
+  print "@a_\n";
+    # beautiful rose i like a long stem rose rise
+    # he think average salary rose rise in last few years year
+
+Compared to Lingua::Stem::En,
+
+  $a_ = stem( { -words => \@a } );
+  print "@$a_\n";
+    # beauti rose i would like a long stem rose
+    # he think that averag salari rose in the last few year
 
 =cut
 
